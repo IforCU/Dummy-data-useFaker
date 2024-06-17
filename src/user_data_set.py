@@ -23,8 +23,9 @@ for i in range(1, 1001):
     # 호스팅 날짜는 가입 날짜보다 빠르면 안된다.
     signup_date = fake.date_between(start_date='-20y', end_date='today')
     hosting_date = fake.date_between(start_date=signup_date, end_date='today') if random.choice([True, False]) else None
-        # 호스팅 날짜가 없으면 user 있으면 host가 되어야 함.
+    # 호스팅 날짜가 없으면 user 있으면 host가 되어야 함.
     role = "HOST" if hosting_date else "USER"
+    # 역할이 host면 슈퍼호스트 유무를 가질 수 있고 user면 무조건 false
     superhost = fake.boolean() if role == "HOST" else False
     
     row = [
@@ -36,11 +37,11 @@ for i in range(1, 1001):
         hosting_date.isoformat() if hosting_date else "N/A",  # 호스팅 날짜
         signup_date.isoformat(),  # 가입 날짜
         fake.country(),  # 국적
-        fake.city(),  # 내 위치
+        fake.address(),  # 내 위치
         fake.phone_number(),  # 전화번호
         fake.email()  # 이메일
     ]
     sheet.append(row)
 
 # 엑셀 파일 저장
-workbook.save("dummy_data.xlsx")
+workbook.save("user.xlsx")
